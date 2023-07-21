@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "letters",
+  "version": "${version}",
+  "name": "Letters",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/letters/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.mrturtle.letters.Letters"
+    ]
+  },
+  "mixins": [
+    "letters.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": "*",
+    "fabric": "*",
+    "minecraft": "*"
+  }
+}
