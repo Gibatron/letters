@@ -33,7 +33,6 @@ public class PlayerInventoryMixin {
 	}
 
 	public void displayNewLetters(ItemStack stack) {
-		// TODO PLAY SOUND ON DISPLAY
 		if (stack.getItem() == Items.AIR)
 			return;
 		MutableText gain = DeconstructGui.calculateGain(stack.getItem(), (ServerPlayerEntity) player, true);
