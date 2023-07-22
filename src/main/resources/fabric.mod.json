@@ -3,9 +3,15 @@
   "id": "letters",
   "version": "${version}",
   "name": "Letters",
-  "description": "",
-  "authors": [],
-  "contact": {},
+  "description": "A server side mod that lets you assemble and disassemble items from/into letters.",
+  "authors": [
+    "MrTurtle"
+  ],
+  "contact": {
+    "homepage": "https://modrinth.com/mod/letters",
+    "issues": "https://github.com/Gibatron/letters/issues",
+    "sources": "https://github.com/Gibatron/letters"
+  },
   "license": "MIT",
   "icon": "assets/letters/icon.png",
   "environment": "*",
