@@ -13,9 +13,7 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
-import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.HashMap;
 
 public class ConstructGui extends AnvilInputGui {
 	public ConstructGui(ServerPlayerEntity player) {
@@ -54,13 +52,9 @@ public class ConstructGui extends AnvilInputGui {
 
 	public void removeCost(String input) {
 		LettersData data = PlayerDataApi.getCustomDataFor(player, Letters.DATA_STORAGE);
-		String letters = data.letters;
 		for (char c : input.toCharArray()) {
-			letters = letters.replaceFirst(Pattern.quote(String.valueOf(c)), Matcher.quoteReplacement(""));
+			data.letters.put(c, data.letters.get(c) - 1);
 		}
-		char[] newLetters = letters.toCharArray();
-		Arrays.sort(newLetters);
-		data.letters = new String(newLetters);
 		PlayerDataApi.setCustomDataFor(player, Letters.DATA_STORAGE, data);
 	}
 
@@ -74,14 +68,14 @@ public class ConstructGui extends AnvilInputGui {
 	}
 
 	public CostResult calculateCost(String input) {
-		String letters = PlayerDataApi.getCustomDataFor(player, Letters.DATA_STORAGE).letters;
+		HashMap<Character, Integer> letters = (HashMap<Character, Integer>) PlayerDataApi.getCustomDataFor(player, Letters.DATA_STORAGE).letters.clone();
 		char[] name = input.toLowerCase().replace(" ", "").toCharArray();
 		MutableText text = Text.empty();
 		CostResult result = new CostResult();
 		for (char c : name) {
 			MutableText segment = Text.literal(String.valueOf(c));
-			if (letters.contains(String.valueOf(c))) {
-				letters = letters.replaceFirst(Pattern.quote(String.valueOf(c)), Matcher.quoteReplacement(" "));
+			if (letters.get(c) > 0) {
+				letters.put(c, letters.get(c) - 1);
 				segment.setStyle(Style.EMPTY.withColor(Formatting.GRAY));
 			} else {
 				segment.setStyle(Style.EMPTY.withColor(Formatting.RED));

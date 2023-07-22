@@ -17,6 +17,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class DeconstructGui extends SimpleGui {
 	public DeconstructGui(ServerPlayerEntity player) {
@@ -59,25 +60,22 @@ public class DeconstructGui extends SimpleGui {
 
 	public void addGain() {
 		LettersData data = PlayerDataApi.getCustomDataFor(player, Letters.DATA_STORAGE);
-		String letters = data.letters;
 		String gain = calculateGain(getSlotRedirect(4).getStack().getItem(), player).getString();
-		char[] newLetters = (letters + gain).toCharArray();
-		Arrays.sort(newLetters);
-		data.letters = new String(newLetters);
+		for (char c : gain.toCharArray()) {
+			data.letters.put(c, data.letters.get(c) + 1);
+		}
 		PlayerDataApi.setCustomDataFor(player, Letters.DATA_STORAGE, data);
 	}
 
 	public static MutableText calculateGain(Item item, ServerPlayerEntity serverPlayer, boolean onlyNew) {
-		if (PlayerDataApi.getCustomDataFor(serverPlayer, Letters.DATA_STORAGE) == null) {
-			PlayerDataApi.setCustomDataFor(serverPlayer, Letters.DATA_STORAGE, new LettersData());
-		}
-		String letters = PlayerDataApi.getCustomDataFor(serverPlayer, Letters.DATA_STORAGE).letters;
+		LettersData.createIfNull(serverPlayer);
+		HashMap<Character, Integer> letters = PlayerDataApi.getCustomDataFor(serverPlayer, Letters.DATA_STORAGE).letters;
 		char[] name = item.getName().getString().toLowerCase().replace(" ", "").toCharArray();
 		Arrays.sort(name);
 		MutableText text = Text.empty();
 		for (char c : name) {
 			MutableText segment = Text.literal(String.valueOf(c));
-			if (letters.contains(String.valueOf(c))) {
+			if (letters.get(c) > 0) {
 				segment.setStyle(Style.EMPTY.withColor(Formatting.GRAY));
 				if (!onlyNew)
 					text.append(segment);

@@ -17,8 +17,6 @@ import java.util.HashMap;
 
 public class SelectGui extends SimpleGui {
 
-	static char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
-
 	public SelectGui(ServerPlayerEntity player) {
 		super(ScreenHandlerType.GENERIC_3X3, player, false);
 		setTitle(Text.literal("Letters"));
@@ -36,25 +34,12 @@ public class SelectGui extends SimpleGui {
 			constructGui.open();
 		}));
 
-		if (PlayerDataApi.getCustomDataFor(player, Letters.DATA_STORAGE) == null) {
-			PlayerDataApi.setCustomDataFor(player, Letters.DATA_STORAGE, new LettersData());
-		}
-		String letters = PlayerDataApi.getCustomDataFor(player, Letters.DATA_STORAGE).letters;
-		HashMap<Character, Integer> letterMap = new HashMap<>();
+		LettersData.createIfNull(player);
+		HashMap<Character, Integer> letters = PlayerDataApi.getCustomDataFor(player, Letters.DATA_STORAGE).letters;
 		MutableText text = Text.empty();
-		for (char c : alphabet) {
-			letterMap.put(c, 0);
-		}
-		for (char c : letters.toCharArray()) {
-			if (letterMap.containsKey(c)) {
-				letterMap.put(c, letterMap.get(c) + 1);
-			} else {
-				letterMap.put(c, 1);
-			}
-		}
-		for (Character c : letterMap.keySet()) {
+		for (Character c : letters.keySet()) {
 			MutableText segment = Text.literal(String.valueOf(c).toUpperCase()).setStyle(Style.EMPTY.withBold(true));
-			int count = letterMap.get(c);
+			int count = letters.get(c);
 			String countString = convertToSubscript(String.valueOf(count).toCharArray());
 			MutableText countSegment = Text.literal(countString).setStyle(styleLetter(count).withBold(false));
 			text.append(segment);
