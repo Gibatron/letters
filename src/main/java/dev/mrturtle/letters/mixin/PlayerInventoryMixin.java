@@ -24,12 +24,14 @@ public class PlayerInventoryMixin {
 
 	@Inject(method = "insertStack(ILnet/minecraft/item/ItemStack;)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;setCount(I)V"))
 	public void insertStack(int slot, ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
-		displayNewLetters(stack);
+		if (!player.getWorld().isClient)
+			displayNewLetters(stack);
 	}
 
 	@Inject(method = "setStack", at = @At(value = "RETURN"))
 	public void setStack(int slot, ItemStack stack, CallbackInfo ci) {
-		displayNewLetters(stack);
+		if (!player.getWorld().isClient)
+			displayNewLetters(stack);
 	}
 
 	public void displayNewLetters(ItemStack stack) {
