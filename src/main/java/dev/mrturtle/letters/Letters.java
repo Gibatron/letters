@@ -4,6 +4,7 @@ import eu.pb4.playerdata.api.PlayerDataApi;
 import eu.pb4.playerdata.api.storage.JsonDataStorage;
 import eu.pb4.playerdata.api.storage.PlayerDataStorage;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 
@@ -17,8 +18,10 @@ public class Letters implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		PlayerDataApi.register(DATA_STORAGE);
-		for (Item item : Registries.ITEM) {
-			searchItems.put(item.getName().getString(), item);
-		}
+		ServerLifecycleEvents.SERVER_STARTED.register((server) -> {
+			for (Item item : Registries.ITEM) {
+				searchItems.put(item.getName().getString(), item);
+			}
+		});
 	}
 }
