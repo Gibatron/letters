@@ -69,7 +69,7 @@ public class ConstructGui extends AnvilInputGui {
 		CostResult result = new CostResult();
 		for (char c : name) {
 			MutableText segment = Text.literal(String.valueOf(c));
-			if (letters.get(c) > 0) {
+			if (letters.getOrDefault(c, 0) > 0) {
 				letters.put(c, letters.get(c) - 1);
 				segment.setStyle(Style.EMPTY.withColor(Formatting.GRAY));
 			} else {
