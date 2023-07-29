@@ -59,12 +59,7 @@ public class ConstructGui extends AnvilInputGui {
 	}
 
 	public Item getResult(String input) {
-		for (String name : Letters.searchItems.keySet()) {
-			if (name.equalsIgnoreCase(input)) {
-				return Letters.searchItems.get(name);
-			}
-		}
-		return Items.AIR;
+		return Letters.searchItems.getOrDefault(input.toLowerCase(), Items.AIR);
 	}
 
 	public CostResult calculateCost(String input) {

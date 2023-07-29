@@ -7,6 +7,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
+import net.minecraft.text.Text;
 
 import java.util.HashMap;
 
@@ -20,7 +21,7 @@ public class Letters implements ModInitializer {
 		PlayerDataApi.register(DATA_STORAGE);
 		ServerLifecycleEvents.SERVER_STARTED.register((server) -> {
 			for (Item item : Registries.ITEM) {
-				searchItems.put(item.getName().getString(), item);
+				searchItems.put(item.getName().getString().toLowerCase(), item);
 			}
 		});
 	}
