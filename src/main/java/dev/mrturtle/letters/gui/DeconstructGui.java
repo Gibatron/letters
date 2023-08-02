@@ -7,6 +7,7 @@ import eu.pb4.sgui.api.elements.GuiElementBuilder;
 import eu.pb4.sgui.api.gui.SimpleGui;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
@@ -41,8 +42,16 @@ public class DeconstructGui extends SimpleGui {
 							.setStyle(Style.EMPTY.withItalic(false)))
 					.addLoreLine(calculateGain(inputItem, player))
 					.setCallback((i, clickType, actionType) -> {
-						addGain();
-						getSlotRedirect(4).getStack().decrement(1);
+						ItemStack inputStack = getSlotRedirect(4).getStack();
+						if (clickType.shift) {
+							while (!inputStack.isEmpty()) {
+								addGain();
+								inputStack.decrement(1);
+							}
+						} else {
+							addGain();
+							inputStack.decrement(1);
+						}
 					})
 			);
 		} else {
