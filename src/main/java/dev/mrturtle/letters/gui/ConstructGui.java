@@ -53,7 +53,7 @@ public class ConstructGui extends AnvilInputGui {
 	public void removeCost(String input) {
 		LettersData data = PlayerDataApi.getCustomDataFor(player, Letters.DATA_STORAGE);
 		for (char c : input.toCharArray()) {
-			data.letters.put(c, data.letters.get(c) - 1);
+			data.letters.put(c, data.letters.getOrDefault(c, 0) - 1);
 		}
 		PlayerDataApi.setCustomDataFor(player, Letters.DATA_STORAGE, data);
 	}
