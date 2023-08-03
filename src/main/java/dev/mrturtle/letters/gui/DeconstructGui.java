@@ -71,7 +71,7 @@ public class DeconstructGui extends SimpleGui {
 		LettersData data = PlayerDataApi.getCustomDataFor(player, Letters.DATA_STORAGE);
 		String gain = calculateGain(getSlotRedirect(4).getStack().getItem(), player).getString();
 		for (char c : gain.toCharArray()) {
-			data.letters.put(c, data.letters.get(c) + 1);
+			data.letters.put(c, data.letters.getOrDefault(c, 0) + 1);
 		}
 		PlayerDataApi.setCustomDataFor(player, Letters.DATA_STORAGE, data);
 	}
@@ -84,7 +84,7 @@ public class DeconstructGui extends SimpleGui {
 		MutableText text = Text.empty();
 		for (char c : name) {
 			MutableText segment = Text.literal(String.valueOf(c));
-			if (letters.get(c) > 0) {
+			if (letters.getOrDefault(c, 0) > 0) {
 				segment.setStyle(Style.EMPTY.withColor(Formatting.GRAY));
 				if (!onlyNew)
 					text.append(segment);
