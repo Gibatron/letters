@@ -38,7 +38,7 @@ public class SelectGui extends SimpleGui {
 		HashMap<Character, Integer> letters = PlayerDataApi.getCustomDataFor(player, Letters.DATA_STORAGE).letters;
 		MutableText text = Text.empty();
 		for (Character c : letters.keySet()) {
-			MutableText segment = Text.literal(String.valueOf(c).toUpperCase()).setStyle(Style.EMPTY.withBold(true));
+			MutableText segment = Text.literal(String.valueOf(c).toUpperCase()).setStyle(Style.EMPTY.withColor(Formatting.WHITE).withBold(true));
 			int count = letters.get(c);
 			String countString = convertToSubscript(String.valueOf(count).toCharArray());
 			MutableText countSegment = Text.literal(countString).setStyle(styleLetter(count).withBold(false));
